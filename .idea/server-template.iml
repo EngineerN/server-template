@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/crates/server/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/crates/web/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/crates/web/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/web-router/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/crates/web/dist" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
