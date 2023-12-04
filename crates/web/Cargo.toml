@@ -1,0 +1,28 @@
+[package]
+name = "web"
+edition = "2021"
+version.workspace = true
+
+[features]
+list = ["dep:itertools"]
+
+[dependencies]
+itertools = { workspace = true, optional = true }
+
+phf = { version = "0.11", features = ["macros"] }
+
+[build-dependencies]
+camino.workspace = true
+
+phf_codegen = "0.11"
+glob = "0.3"
+mime_guess = "2.0.4"
+flate2 = "1.0"
+
+[dev-dependencies]
+web = { path = ".", features = ["list"]}
+
+camino.workspace = true
+
+mime_guess = "2.0.4"
+flate2 = "1.0"
