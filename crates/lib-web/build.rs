@@ -122,15 +122,18 @@ fn generate_dist_map(path: &Utf8Path) {
         .unwrap();
         writeln!(&mut output_file, ";").unwrap();
     }
-    println!("Formatting output files");
-    let rustfmt_exit_status = Command::new(RUSTFMT_CMD)
-        .args(["web_codegen.rs"])
-        .current_dir(output_directory)
-        .status()
-        .unwrap();
 
-    if !rustfmt_exit_status.success() {
-        panic!("Failed to format output of libraries/lib-web")
+    if env::var("SKIP_RUSTFMT").unwrap_or_default() != "true" {
+        println!("Formatting output files");
+        let rustfmt_exit_status = Command::new(RUSTFMT_CMD)
+            .args(["web_codegen.rs"])
+            .current_dir(output_directory)
+            .status()
+            .unwrap();
+
+        if !rustfmt_exit_status.success() {
+            panic!("Failed to format output of libraries/lib-web")
+        }
     }
 }
 
@@ -145,7 +148,11 @@ fn main() {
 
     let current_path_string = env::var("CARGO_MANIFEST_DIR").unwrap();
     let current_path = Utf8Path::new(&current_path_string);
-    install_npm_dependencies(current_path);
-    build_npm(current_path);
+
+    if env::var("SKIP_NPM_BUILD").unwrap_or_default() != "true" {
+        install_npm_dependencies(current_path);
+        build_npm(current_path);
+    }
+
     generate_dist_map(current_path);
 }

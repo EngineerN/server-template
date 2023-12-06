@@ -1,0 +1,8 @@
+.dockerignore
+.git/
+.husky/
+.idea/
+.vscode/
+Dockerfile
+node_modules/
+target/
