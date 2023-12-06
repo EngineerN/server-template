@@ -1,6 +1,7 @@
 [package]
 name = "lib-web"
 edition = "2021"
+publish = false
 version.workspace = true
 
 [features]
