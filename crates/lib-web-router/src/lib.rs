@@ -14,6 +14,20 @@ async fn web_route(request_headers: HeaderMap, path: Option<Path<String>>) -> im
     let file_data = get_file_data(path_string.as_str()).unwrap_or(get_index_data());
 
     let mut headers = HeaderMap::new();
+
+    headers.insert(
+        header::X_CONTENT_TYPE_OPTIONS,
+        HeaderValue::from_static("nosniff"),
+    );
+    headers.insert(
+        header::CONTENT_SECURITY_POLICY,
+        HeaderValue::from_static(
+            "default-src 'self'; font-src 'self'; img-src 'self'; \
+        script-src 'self'; style-src 'self'; frame-src 'self'; \
+        frame-ancestors 'self'; form-action 'self';",
+        ),
+    );
+
     if !file_data.mime_type.is_empty() {
         headers.insert(
             header::CONTENT_TYPE,
