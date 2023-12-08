@@ -41,5 +41,10 @@ export default defineConfig({
   esbuild: {
     banner: '/*! licenses: /web/LICENSE.txt */',
     legalComments: 'none'
+  },
+  server: {
+    host: "127.0.0.1",
+    port: 4000,
+    strictPort: true
   }
 })
