@@ -8,9 +8,9 @@ resolver = "2"
 version = "0.1.0"
 
 [workspace.dependencies]
-api-router = { path = "crates/api-router" }
-web = { path = "crates/web" }
-web-router = { path = "crates/web-router" }
+lib-api-router = { path = "crates/lib-api-router" }
+lib-web = { path = "crates/lib-web" }
+lib-web-router = { path = "crates/lib-web-router" }
 
 axum = "0.7.1"
 camino = "1.1"

@@ -1,4 +1,4 @@
-import path from "node:path";
+import path from 'node:path'
 
 import { mergeConfig, defineConfig, configDefaults } from 'vitest/config'
 import viteConfig from './vite.config'

@@ -18,13 +18,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f26201604c87b1e01bd3d98f8d5d9a8fcbb815e8cedb41ffccbeb4bf593a35fe"
 
 [[package]]
-name = "api-router"
-version = "0.1.0"
-dependencies = [
- "axum",
-]
-
-[[package]]
 name = "async-trait"
 version = "0.1.74"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -381,6 +374,35 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "af150ab688ff2122fcef229be89cb50dd66af9e01a4ff320cc137eecc9bacc38"
 
 [[package]]
+name = "lib-api-router"
+version = "0.1.0"
+dependencies = [
+ "axum",
+]
+
+[[package]]
+name = "lib-web"
+version = "0.1.0"
+dependencies = [
+ "camino",
+ "flate2",
+ "glob",
+ "itertools",
+ "lib-web",
+ "mime_guess",
+ "phf",
+ "phf_codegen",
+]
+
+[[package]]
+name = "lib-web-router"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "lib-web",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.150"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -711,10 +733,10 @@ dependencies = [
 name = "server"
 version = "0.1.0"
 dependencies = [
- "api-router",
  "axum",
+ "lib-api-router",
+ "lib-web-router",
  "tokio",
- "web-router",
 ]
 
 [[package]]
@@ -892,28 +914,6 @@ name = "wasi"
 version = "0.11.0+wasi-snapshot-preview1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
-
-[[package]]
-name = "web"
-version = "0.1.0"
-dependencies = [
- "camino",
- "flate2",
- "glob",
- "itertools",
- "mime_guess",
- "phf",
- "phf_codegen",
- "web",
-]
-
-[[package]]
-name = "web-router"
-version = "0.1.0"
-dependencies = [
- "axum",
- "web",
-]
 
 [[package]]
 name = "windows-sys"

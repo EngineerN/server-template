@@ -1,0 +1,9 @@
+[package]
+name = "lib-web-router"
+edition = "2021"
+version.workspace = true
+
+[dependencies]
+lib-web.workspace = true
+
+axum.workspace = true

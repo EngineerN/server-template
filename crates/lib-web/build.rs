@@ -30,7 +30,7 @@ fn install_npm_dependencies(path: &Utf8Path) {
 }
 
 fn build_npm(path: &Utf8Path) {
-    println!("Building npm project for libraries/web.");
+    println!("Building npm project for libraries/lib-web.");
     let npm_exit_status = Command::new(NPM_CMD)
         .args(["run", "build"])
         .current_dir(path)
@@ -38,7 +38,7 @@ fn build_npm(path: &Utf8Path) {
         .unwrap();
 
     if !npm_exit_status.success() {
-        panic!("Failed to build npm portion of libraries/web")
+        panic!("Failed to build npm portion of libraries/lib-web")
     }
 }
 
@@ -130,7 +130,7 @@ fn generate_dist_map(path: &Utf8Path) {
         .unwrap();
 
     if !rustfmt_exit_status.success() {
-        panic!("Failed to format output of libraries/web")
+        panic!("Failed to format output of libraries/lib-web")
     }
 }
 

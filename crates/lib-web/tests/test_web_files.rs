@@ -1,10 +1,10 @@
 use camino::{Utf8Path, Utf8PathBuf};
 use flate2::write::GzEncoder;
 use flate2::Compression;
+use lib_web::{get_file_data, get_file_list, get_index_data};
 use std::env;
 use std::fs::File;
 use std::io::{Read, Write};
-use web::{get_file_data, get_file_list, get_index_data};
 
 fn get_uncompressed_data(path: &Utf8PathBuf) -> Vec<u8> {
     let metadata = path.metadata().expect("Unable to read metadata.");

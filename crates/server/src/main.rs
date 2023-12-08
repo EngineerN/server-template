@@ -1,8 +1,8 @@
-use api_router::api_router;
 use axum::response::Redirect;
 use axum::Router;
+use lib_api_router::api_router;
+use lib_web_router::web_router;
 use tokio::net::TcpListener;
-use web_router::web_router;
 
 #[tokio::main]
 async fn main() {
