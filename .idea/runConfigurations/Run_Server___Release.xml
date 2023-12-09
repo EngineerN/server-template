@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Server - Release" type="CompoundRunConfigurationType">
+    <toRun name="Rust - Run Server - Release" type="CargoCommandRunConfiguration" />
+    <method v="2" />
+  </configuration>
+</component>

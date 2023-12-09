@@ -1,0 +1,15 @@
+[package]
+name = "server"
+edition = "2021"
+publish = false
+version.workspace = true
+
+[features]
+debug-web = []
+
+[dependencies]
+lib-api-router.workspace = true
+lib-web-router.workspace = true
+
+axum.workspace = true
+tokio.workspace = true
