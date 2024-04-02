@@ -59,7 +59,7 @@ fn compress_data(data: &[u8]) -> Vec<u8> {
 
 fn generate_dist_map(path: &Utf8Path) {
     let input_path = path.join("dist");
-    let input_path_str = input_path.as_str().to_owned() + "/";
+    let input_path_str = (input_path.as_str().to_owned() + "/").replace('\\', "/");
 
     let output_directory_string = env::var("OUT_DIR").unwrap();
     let output_directory = Utf8Path::new(&output_directory_string);
@@ -90,7 +90,10 @@ fn generate_dist_map(path: &Utf8Path) {
                 file_data_uncompressed, file_data_compressed, mime_type
             );
 
-            let reduced_path = local_path.to_string().replace(input_path_str.as_str(), "");
+            let reduced_path = local_path
+                .to_string()
+                .replace('\\', "/")
+                .replace(input_path_str.as_str(), "");
             if reduced_path == "index.html" {
                 index_string = s.clone();
             }
