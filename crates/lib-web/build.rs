@@ -159,6 +159,7 @@ fn generate_dist_map(path: &Utf8Path) {
 }
 
 fn main() {
+    println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed=public");
     println!("cargo:rerun-if-changed=src");
     println!("cargo:rerun-if-changed=index.html");
