@@ -86,7 +86,7 @@ fn generate_dist_map(path: &Utf8Path) {
             let mime_type = mime_guess::from_path(local_path.clone()).first_or_octet_stream();
 
             let s = format!(
-                "Resource {{data_uncompressed: &{:?}, data_gzip: &{:?}, mime_type: &{:?}}}",
+                "&Resource {{data_uncompressed: &{:?}, data_gzip: &{:?}, mime_type: &{:?}}}",
                 file_data_uncompressed, file_data_compressed, mime_type
             );
 
@@ -94,10 +94,15 @@ fn generate_dist_map(path: &Utf8Path) {
                 .to_string()
                 .replace('\\', "/")
                 .replace(input_path_str.as_str(), "");
+
             if reduced_path == "index.html" {
-                index_string = s.clone();
-            }
-            map.entry(reduced_path, s.as_str());
+                let mut chars = s.chars();
+                chars.next();
+                index_string = chars.as_str().to_string();
+                map.entry(reduced_path, "&INDEX_DATA");
+            } else {
+                map.entry(reduced_path, s.as_str());
+            };
         }
 
         if !index_string.is_empty() {
@@ -113,7 +118,7 @@ fn generate_dist_map(path: &Utf8Path) {
         writeln!(&mut output_file).unwrap();
         write!(
             &mut output_file,
-            "static FILES: phf::Map<&'static str, Resource> = {}",
+            "static FILES: phf::Map<&'static str, &'static Resource> = {}",
             map.build()
         )
         .unwrap();
