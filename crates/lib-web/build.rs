@@ -109,7 +109,7 @@ fn generate_dist_map(path: &Utf8Path) {
             writeln!(&mut output_file).unwrap();
             write!(
                 &mut output_file,
-                "static INDEX_DATA: Resource = {};",
+                "const INDEX_DATA: Resource = {};",
                 index_string
             )
             .unwrap();
@@ -118,7 +118,7 @@ fn generate_dist_map(path: &Utf8Path) {
         writeln!(&mut output_file).unwrap();
         write!(
             &mut output_file,
-            "static FILES: phf::Map<&'static str, &'static Resource> = {}",
+            "const FILES: phf::Map<&'static str, &'static Resource> = {}",
             map.build()
         )
         .unwrap();
