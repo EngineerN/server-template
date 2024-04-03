@@ -100,17 +100,11 @@ fn generate_dist_map(path: &Utf8Path) {
             map.entry(reduced_path, s.as_str());
         }
 
-        writeln!(&mut output_file, "pub struct Resource<'a> {{").unwrap();
-        writeln!(&mut output_file, "    pub data_uncompressed: &'a [u8],").unwrap();
-        writeln!(&mut output_file, "    pub data_gzip: &'a [u8],").unwrap();
-        writeln!(&mut output_file, "    pub mime_type: &'a str,").unwrap();
-        writeln!(&mut output_file, "}}").unwrap();
-
         if !index_string.is_empty() {
             writeln!(&mut output_file).unwrap();
             write!(
                 &mut output_file,
-                "static INDEX_DATA: Resource<'static> = {};",
+                "static INDEX_DATA: Resource = {};",
                 index_string
             )
             .unwrap();
@@ -119,7 +113,7 @@ fn generate_dist_map(path: &Utf8Path) {
         writeln!(&mut output_file).unwrap();
         write!(
             &mut output_file,
-            "static FILES: phf::Map<&'static str, Resource<'static>> = {}",
+            "static FILES: phf::Map<&'static str, Resource> = {}",
             map.build()
         )
         .unwrap();
