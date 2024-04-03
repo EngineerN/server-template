@@ -3,10 +3,10 @@ use flate2::write::GzEncoder;
 use flate2::Compression;
 use glob::glob;
 use phf_codegen::Map;
-use std::env;
 use std::fs::File;
 use std::io::{BufWriter, Read, Write};
 use std::process::Command;
+use std::{env, fs};
 
 #[cfg(windows)]
 static NPM_CMD: &str = "npm.cmd";
@@ -63,6 +63,9 @@ fn generate_dist_map(path: &Utf8Path) {
 
     let output_directory_string = env::var("OUT_DIR").unwrap();
     let output_directory = Utf8Path::new(&output_directory_string);
+
+    let data_path = output_directory.join("data");
+    let data_compressed_path = output_directory.join("data-compressed");
     let output_path = output_directory.join("web_codegen.rs");
     {
         let mut output_file =
@@ -81,19 +84,35 @@ fn generate_dist_map(path: &Utf8Path) {
                 continue;
             }
 
-            let file_data_uncompressed = get_uncompressed_data(&local_path);
-            let file_data_compressed = compress_data(&file_data_uncompressed);
-            let mime_type = mime_guess::from_path(local_path.clone()).first_or_octet_stream();
-
-            let s = format!(
-                "&Resource {{data_uncompressed: &{:?}, data_gzip: &{:?}, mime_type: &{:?}}}",
-                file_data_uncompressed, file_data_compressed, mime_type
-            );
-
             let reduced_path = local_path
                 .to_string()
                 .replace('\\', "/")
                 .replace(input_path_str.as_str(), "");
+
+            let new_path = data_path.join(&reduced_path);
+            if let Some(new_parent_path) = new_path.parent() {
+                fs::create_dir_all(new_parent_path).expect("Failed to create parent path.");
+            }
+            fs::copy(&local_path, data_path.join(&reduced_path))
+                .expect("Failed to copy to new path.");
+
+            let file_data_uncompressed = get_uncompressed_data(&local_path);
+            let file_data_compressed = compress_data(&file_data_uncompressed);
+
+            let new_compressed_path = data_compressed_path.join(&reduced_path);
+            if let Some(new_parent_compressed_path) = new_compressed_path.parent() {
+                fs::create_dir_all(new_parent_compressed_path)
+                    .expect("Failed to create parent path.");
+            }
+            fs::write(new_compressed_path, &file_data_compressed)
+                .expect("Failed to write compressed data.");
+
+            let mime_type = mime_guess::from_path(local_path.clone()).first_or_octet_stream();
+
+            let s = format!(
+                "&Resource {{data_uncompressed: include_bytes!({:?}), data_gzip: include_bytes!({:?}), mime_type: &{:?}}}",
+                "data/".to_owned() + reduced_path.as_str(), "data-compressed/".to_owned() + reduced_path.as_str(), mime_type
+            );
 
             if reduced_path == "index.html" {
                 let mut chars = s.chars();
